@@ -1,1 +1,24 @@
+services:
+api:
+image: ghcr.io/leoaigner7/cool-api:latest
+env_file: .env
+depends_on:
+- db
+ports:
+- "80:8000" # ggf. hinter Nginx/Traefik auf 8000 lassen
+restart: unless-stopped
 
+
+db:
+image: postgres:16
+environment:
+POSTGRES_DB: app
+POSTGRES_USER: app
+POSTGRES_PASSWORD: appsecret
+volumes:
+- dbdata:/var/lib/postgresql/data
+restart: unless-stopped
+
+
+volumes:
+dbdata:
